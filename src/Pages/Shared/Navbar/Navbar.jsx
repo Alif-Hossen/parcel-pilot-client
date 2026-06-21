@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { NavLink } from "react-router";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const navLinks = [
+        { path: "/", label: "Home" },
+        { path: "/coverage", label: "Coverage" },
+        { path: "/services", label: "Services" },
+        { path: "/pricing", label: "Pricing" },
+        { path: "/contact", label: "Contact" },
+    ];
 
     return (
         <nav className="bg-[#0f172a] border-b border-[#1e293b] sticky top-0 z-50 rounded-2xl my-2">
@@ -17,12 +26,23 @@ const Navbar = () => {
                         </span>
                     </div>
 
-                    <div className="hidden md:flex items-center space-x-8">
-                        <a href="#" className="text-[#fef08a] text-sm font-medium transition-colors duration-200">Home</a>
-                        <a href="#" className="text-gray-300 hover:text-[#fef08a] text-sm font-medium transition-colors duration-200">Track Parcel</a>
-                        <a href="#" className="text-gray-300 hover:text-[#fef08a] text-sm font-medium transition-colors duration-200">Services</a>
-                        <a href="#" className="text-gray-300 hover:text-[#fef08a] text-sm font-medium transition-colors duration-200">Pricing</a>
-                        <a href="#" className="text-gray-300 hover:text-[#fef08a] text-sm font-medium transition-colors duration-200">Contact</a>
+                    {/* Desktop Navigation Loop */}
+                    <div className="hidden md:flex items-center space-x-2">
+                        {navLinks.map((link) => (
+                            <NavLink
+                                key={link.path}
+                                to={link.path}
+                                className={({ isActive }) =>
+                                    `text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 ${
+                                        isActive
+                                            ? "text-[#fef08a] bg-[#1e293b] border border-[#fef08a]/20 shadow-[0_0_15px_rgba(254,240,138,0.05)]"
+                                            : "text-gray-300 hover:text-[#fef08a] hover:bg-[#1e293b]/50 border border-transparent"
+                                    }`
+                                }
+                            >
+                                {link.label}
+                            </NavLink>
+                        ))}
                     </div>
 
                     <div className="hidden md:flex items-center space-x-4">
@@ -52,13 +72,25 @@ const Navbar = () => {
                 </div>
             </div>
 
+            {/* Mobile Navigation Loop */}
             <div className={`${isOpen ? 'block' : 'hidden'} md:hidden bg-[#0f172a] border-t border-[#1e293b]`}>
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#" className="block bg-[#1e293b] text-[#fef08a] px-3 py-2 rounded-md text-base font-medium">Home</a>
-                    <a href="#" className="block text-gray-300 hover:bg-[#1e293b] hover:text-[#fef08a] px-3 py-2 rounded-md text-base font-medium transition-colors">Track Parcel</a>
-                    <a href="#" className="block text-gray-300 hover:bg-[#1e293b] hover:text-[#fef08a] px-3 py-2 rounded-md text-base font-medium transition-colors">Services</a>
-                    <a href="#" className="block text-gray-300 hover:bg-[#1e293b] hover:text-[#fef08a] px-3 py-2 rounded-md text-base font-medium transition-colors">Pricing</a>
-                    <a href="#" className="block text-gray-300 hover:bg-[#1e293b] hover:text-[#fef08a] px-3 py-2 rounded-md text-base font-medium transition-colors">Contact</a>
+                    {navLinks.map((link) => (
+                        <NavLink
+                            key={link.path}
+                            to={link.path}
+                            onClick={() => setIsOpen(false)}
+                            className={({ isActive }) =>
+                                `block text-base font-medium px-3 py-2 rounded-md transition-all ${
+                                    isActive
+                                        ? "text-[#fef08a] bg-[#1e293b] border border-[#fef08a]/10"
+                                        : "text-gray-300 hover:bg-[#1e293b] hover:text-[#fef08a]"
+                                    }`
+                            }
+                        >
+                            {link.label}
+                        </NavLink>
+                    ))}
                 </div>
                 <div className="pt-4 pb-4 border-t border-[#1e293b] px-5 flex flex-col gap-3">
                     <button className="w-full text-center text-gray-300 hover:text-[#fef08a] text-base font-medium py-2 transition-colors">
